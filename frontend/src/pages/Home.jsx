@@ -241,15 +241,15 @@ const Home = () => {
               <h4 className="font-semibold mb-4">Customer Support</h4>
               <ul className="space-y-2 text-sm text-white/70">
                 <li>
-                  <a href="tel:+2341234567890" className="hover:text-white">+234 123 456 7890</a>
+                  <a href="tel:+2348148242485" className="hover:text-white">08148242485</a>
                 </li>
                 <li>
-                  <a href="https://wa.me/2341234567890" target="_blank" rel="noopener noreferrer" className="hover:text-white">WhatsApp Support</a>
+                  <a href="https://wa.me/2348148242485" target="_blank" rel="noopener noreferrer" className="hover:text-white">WhatsApp Support</a>
                 </li>
                 <li>
                   <a href="mailto:support@foodnova.com" className="hover:text-white">support@foodnova.com</a>
                 </li>
-                <li className="text-xs mt-2">Lagos, Nigeria</li>
+                <li className="text-xs mt-2">33 Ariyo Akinloye street, Bucknor Isheri, Lagos</li>
               </ul>
             </div>
           </div>
