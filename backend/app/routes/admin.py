@@ -105,12 +105,26 @@ def update_order_status(
     if not order:
         raise HTTPException(status_code=404, detail="Order not found")
     
-    valid_statuses = ["pending", "paid", "confirmed", "cancelled"]
+    valid_statuses = ["pending", "paid", "confirmed", "cancelled", "out_for_delivery"]
     if data.status not in valid_statuses:
         raise HTTPException(status_code=400, detail=f"Invalid status. Must be one of: {valid_statuses}")
     
+    old_status = order.status
     order.status = data.status
     db.commit()
+    
+    # Send SMS notification for status change
+    sms = get_sms_service()
+    if sms and old_status != data.status:
+        user = db.query(User).filter(User.id == order.user_id).first()
+        customer_name = user.full_name if user else "Customer"
+        
+        if data.status == "paid":
+            sms.send_order_paid(order.phone, order.id, customer_name)
+        elif data.status == "confirmed":
+            sms.send_order_confirmed(order.phone, order.id, customer_name)
+        elif data.status == "out_for_delivery":
+            sms.send_order_out_for_delivery(order.phone, order.id, customer_name)
     
     return {"message": "Order status updated", "status": order.status}
 
