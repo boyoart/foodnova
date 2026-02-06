@@ -13,6 +13,7 @@ from ..schemas.order import OrderResponse, OrderListResponse, OrderItemResponse,
 from ..schemas.product import ProductCreate, ProductUpdate, ProductResponse
 from ..schemas.receipt import ReceiptResponse, ReceiptStatusUpdate, PaymentResponse, PaymentStatusUpdate
 from ..core.security import get_admin_user
+from ..services.sms import get_sms_service
 
 router = APIRouter(prefix="/admin", tags=["Admin"])
 
