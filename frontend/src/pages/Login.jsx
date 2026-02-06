@@ -109,15 +109,6 @@ const Login = () => {
               Sign up
             </Link>
           </div>
-
-          <div className="mt-4 text-center">
-            <Link 
-              to="/admin/login" 
-              className="text-xs text-muted-foreground hover:text-primary"
-            >
-              Admin Login →
-            </Link>
-          </div>
         </CardContent>
       </Card>
     </div>
