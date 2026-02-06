@@ -24,7 +24,7 @@ To use your own logo image:
 ```
 
 ### Footer Logo
-File: `/frontend/src/pages/Home.jsx` (Around line 165)
+File: `/frontend/src/pages/Home.jsx` (Footer section around line 217)
 The footer has text-only branding "FoodNova". Update the text or add an image similarly.
 
 ### Brand Name
@@ -35,6 +35,7 @@ Search and replace "FoodNova" across these files:
 - `/frontend/src/pages/Register.jsx`
 - `/frontend/src/pages/AdminLogin.jsx`
 - `/frontend/src/pages/AdminDashboard.jsx`
+- `/frontend/src/pages/Checkout.jsx` (pickup location)
 
 ### Brand Colors
 File: `/frontend/src/index.css`
@@ -48,33 +49,62 @@ Change these HSL values to match your brand.
 
 ## 2. CUSTOMER SUPPORT
 
-Support contact information is displayed:
-- In the footer on the homepage
-- On the checkout page
-- On order detail pages
+Support contact information is displayed in:
+- Footer on homepage (`/frontend/src/pages/Home.jsx`)
+- Checkout page sidebar (`/frontend/src/pages/Checkout.jsx`)
 
-Current support email: support@foodnova.com
-Update in: `/frontend/src/pages/Home.jsx` (footer section)
+### To Update Support Contacts:
+Search and replace these values:
+
+Phone Number: `+234 123 456 7890`
+WhatsApp: `https://wa.me/2341234567890`
+Email: `support@foodnova.com`
+
+Files to update:
+- `/frontend/src/pages/Home.jsx` (footer)
+- `/frontend/src/pages/Checkout.jsx` (support card)
 
 ---
 
 ## 3. DELIVERY OPTIONS
 
 The app supports two delivery types:
-- **Pickup**: Customer picks up from store (no delivery fee)
-- **Delivery**: Delivered to customer's address (delivery fee paid upon delivery)
 
-Configuration in checkout flow at `/frontend/src/pages/Checkout.jsx`
+### Pickup (Free)
+- Customer selects "Pickup" at checkout
+- No delivery fee
+- Shows store pickup location
+- Order address marked as "PICKUP - ..."
+
+### Delivery (Fee paid on delivery)
+- Customer selects "Delivery" at checkout
+- Enters delivery address
+- Delivery fee is calculated based on location
+- Customer pays delivery fee upon receiving order
+- Orange notice displayed: "Delivery fee will be calculated based on your location and paid upon delivery"
+
+### To Update Pickup Location:
+File: `/frontend/src/pages/Checkout.jsx` (around line 200)
+
+```jsx
+<p className="text-sm text-muted-foreground mt-1">
+  FoodNova Store<br />
+  123 Main Street, Lagos, Nigeria<br />
+  Open: Mon-Sat 8AM - 8PM
+</p>
+```
 
 ---
 
 ## 4. ADMIN CREDENTIALS
 
 Admin Portal URL: /admin/login
-Email: admin@foodnova.com
-Password: Admin123!
 
-Change via environment variables:
+Default Credentials:
+- Email: admin@foodnova.com
+- Password: Admin123!
+
+Change via environment variables in backend:
 - ADMIN_EMAIL
 - ADMIN_PASSWORD
 
@@ -91,4 +121,41 @@ export const formatPrice = (amount) => {
 };
 ```
 
-To change currency, update this function.
+To change currency symbol, update this function.
+
+---
+
+## 6. PAYMENT METHODS
+
+Current payment methods (Bank Transfer, Bank Deposit):
+File: `/frontend/src/pages/Checkout.jsx` (around line 225)
+
+To add more payment methods, add to the array:
+```jsx
+{[
+  { id: 'etransfer', label: 'Bank Transfer' },
+  { id: 'bank', label: 'Bank Deposit' },
+  { id: 'cash', label: 'Cash on Delivery' },  // Add new methods here
+].map((method) => (
+  // ...
+))}
+```
+
+---
+
+## 7. BANK DETAILS FOR PAYMENT
+
+Update bank details shown on Order Detail page:
+File: `/frontend/src/pages/OrderDetail.jsx` (around line 175)
+
+```jsx
+<p className="text-muted-foreground">
+  Bank: GTBank
+</p>
+<p className="text-muted-foreground">
+  Account: 0123456789
+</p>
+<p className="text-muted-foreground">
+  Name: FoodNova Ltd
+</p>
+```
