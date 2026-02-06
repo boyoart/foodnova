@@ -7,7 +7,7 @@ import { Label } from '../components/ui/label';
 import { Textarea } from '../components/ui/textarea';
 import { Alert, AlertDescription } from '../components/ui/alert';
 import { Separator } from '../components/ui/separator';
-import { ArrowLeft, CreditCard, MapPin, Phone, ShoppingBag } from 'lucide-react';
+import { ArrowLeft, CreditCard, MapPin, Phone, ShoppingBag, Truck, Store, Headphones } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { createOrder, formatPrice } from '../api/store';
 
@@ -20,6 +20,7 @@ const Checkout = () => {
     delivery_address: '',
     phone: '',
     payment_method: 'etransfer',
+    delivery_type: 'delivery',
   });
 
   const handleChange = (e) => {
@@ -31,6 +32,17 @@ const Checkout = () => {
     setError('');
     setLoading(true);
 
+    // For pickup, set a default address
+    const address = formData.delivery_type === 'pickup' 
+      ? 'PICKUP - ' + (formData.delivery_address || 'Customer will pick up from store')
+      : formData.delivery_address;
+
+    if (formData.delivery_type === 'delivery' && !formData.delivery_address.trim()) {
+      setError('Please enter your delivery address');
+      setLoading(false);
+      return;
+    }
+
     try {
       const orderData = {
         items: items.map((item) => ({
@@ -38,7 +50,7 @@ const Checkout = () => {
           pack_variant_id: item.pack_variant_id,
           qty: item.qty,
         })),
-        delivery_address: formData.delivery_address,
+        delivery_address: address,
         phone: formData.phone,
         payment_method: formData.payment_method,
       };
@@ -81,12 +93,79 @@ const Checkout = () => {
 
         <div className="grid lg:grid-cols-3 gap-6">
           {/* Order Form */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 space-y-6">
+            <Card>
+              <CardHeader>
+                <CardTitle className="flex items-center gap-2">
+                  <Truck className="w-5 h-5" />
+                  Delivery Option
+                </CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="grid grid-cols-2 gap-4">
+                  <label
+                    className={`flex flex-col items-center gap-3 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                      formData.delivery_type === 'pickup'
+                        ? 'border-primary bg-primary/5 shadow-md'
+                        : 'border-muted hover:border-primary/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="delivery_type"
+                      value="pickup"
+                      checked={formData.delivery_type === 'pickup'}
+                      onChange={handleChange}
+                      className="sr-only"
+                    />
+                    <Store className={`w-8 h-8 ${formData.delivery_type === 'pickup' ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <div className="text-center">
+                      <p className="font-semibold">Pickup</p>
+                      <p className="text-xs text-muted-foreground">Collect from store</p>
+                      <p className="text-sm font-medium text-primary mt-1">Free</p>
+                    </div>
+                  </label>
+
+                  <label
+                    className={`flex flex-col items-center gap-3 p-6 border-2 rounded-xl cursor-pointer transition-all ${
+                      formData.delivery_type === 'delivery'
+                        ? 'border-primary bg-primary/5 shadow-md'
+                        : 'border-muted hover:border-primary/50'
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="delivery_type"
+                      value="delivery"
+                      checked={formData.delivery_type === 'delivery'}
+                      onChange={handleChange}
+                      className="sr-only"
+                    />
+                    <Truck className={`w-8 h-8 ${formData.delivery_type === 'delivery' ? 'text-primary' : 'text-muted-foreground'}`} />
+                    <div className="text-center">
+                      <p className="font-semibold">Delivery</p>
+                      <p className="text-xs text-muted-foreground">To your doorstep</p>
+                      <p className="text-sm font-medium text-orange-600 mt-1">Pay on delivery</p>
+                    </div>
+                  </label>
+                </div>
+
+                {formData.delivery_type === 'delivery' && (
+                  <Alert className="mt-4 bg-orange-50 border-orange-200">
+                    <Truck className="w-4 h-4 text-orange-600" />
+                    <AlertDescription className="text-orange-800">
+                      Delivery fee will be calculated based on your location and paid upon delivery.
+                    </AlertDescription>
+                  </Alert>
+                )}
+              </CardContent>
+            </Card>
+
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center gap-2">
                   <MapPin className="w-5 h-5" />
-                  Delivery Information
+                  {formData.delivery_type === 'pickup' ? 'Contact Information' : 'Delivery Information'}
                 </CardTitle>
               </CardHeader>
               <CardContent>
@@ -98,7 +177,7 @@ const Checkout = () => {
                   )}
 
                   <div className="space-y-2">
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone">Phone Number *</Label>
                     <div className="relative">
                       <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
                       <Input
@@ -115,19 +194,30 @@ const Checkout = () => {
                     </div>
                   </div>
 
-                  <div className="space-y-2">
-                    <Label htmlFor="delivery_address">Delivery Address</Label>
-                    <Textarea
-                      id="delivery_address"
-                      name="delivery_address"
-                      placeholder="Enter your full delivery address..."
-                      value={formData.delivery_address}
-                      onChange={handleChange}
-                      rows={3}
-                      required
-                      data-testid="checkout-address"
-                    />
-                  </div>
+                  {formData.delivery_type === 'delivery' ? (
+                    <div className="space-y-2">
+                      <Label htmlFor="delivery_address">Delivery Address *</Label>
+                      <Textarea
+                        id="delivery_address"
+                        name="delivery_address"
+                        placeholder="Enter your full delivery address..."
+                        value={formData.delivery_address}
+                        onChange={handleChange}
+                        rows={3}
+                        required
+                        data-testid="checkout-address"
+                      />
+                    </div>
+                  ) : (
+                    <div className="p-4 bg-muted/50 rounded-lg">
+                      <p className="font-medium text-sm">Pickup Location</p>
+                      <p className="text-sm text-muted-foreground mt-1">
+                        FoodNova Store<br />
+                        123 Main Street, Lagos, Nigeria<br />
+                        Open: Mon-Sat 8AM - 8PM
+                      </p>
+                    </div>
+                  )}
 
                   <Separator className="my-6" />
 
@@ -180,8 +270,8 @@ const Checkout = () => {
             </Card>
           </div>
 
-          {/* Order Summary */}
-          <div>
+          {/* Order Summary & Support */}
+          <div className="space-y-6">
             <Card className="sticky top-24">
               <CardHeader>
                 <CardTitle>Order Summary</CardTitle>
@@ -196,9 +286,55 @@ const Checkout = () => {
                   </div>
                 ))}
                 <Separator />
+                <div className="flex justify-between text-sm">
+                  <span className="text-muted-foreground">Subtotal</span>
+                  <span>{formatPrice(totalAmount)}</span>
+                </div>
+                {formData.delivery_type === 'delivery' && (
+                  <div className="flex justify-between text-sm">
+                    <span className="text-muted-foreground">Delivery Fee</span>
+                    <span className="text-orange-600">Pay on delivery</span>
+                  </div>
+                )}
+                <Separator />
                 <div className="flex justify-between font-semibold">
                   <span>Total</span>
                   <span className="price-tag text-lg">{formatPrice(totalAmount)}</span>
+                </div>
+                {formData.delivery_type === 'delivery' && (
+                  <p className="text-xs text-muted-foreground text-center">
+                    + Delivery fee (paid upon delivery)
+                  </p>
+                )}
+              </CardContent>
+            </Card>
+
+            {/* Customer Support */}
+            <Card className="bg-primary/5 border-primary/20">
+              <CardContent className="p-4">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
+                    <Headphones className="w-5 h-5 text-primary" />
+                  </div>
+                  <div>
+                    <p className="font-semibold text-sm">Need Help?</p>
+                    <p className="text-xs text-muted-foreground">Our support team is here for you</p>
+                  </div>
+                </div>
+                <Separator className="my-3" />
+                <div className="space-y-2 text-sm">
+                  <p className="flex justify-between">
+                    <span className="text-muted-foreground">Phone:</span>
+                    <a href="tel:+2341234567890" className="text-primary font-medium">+234 123 456 7890</a>
+                  </p>
+                  <p className="flex justify-between">
+                    <span className="text-muted-foreground">WhatsApp:</span>
+                    <a href="https://wa.me/2341234567890" target="_blank" rel="noopener noreferrer" className="text-primary font-medium">+234 123 456 7890</a>
+                  </p>
+                  <p className="flex justify-between">
+                    <span className="text-muted-foreground">Email:</span>
+                    <a href="mailto:support@foodnova.com" className="text-primary font-medium">support@foodnova.com</a>
+                  </p>
                 </div>
               </CardContent>
             </Card>
