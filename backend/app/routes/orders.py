@@ -7,11 +7,13 @@ from ..models.product import Product
 from ..models.pack import PackVariant, PackVariantItem
 from ..models.payment import Payment
 from ..models.receipt import Receipt
+from ..models.user import User
 from ..schemas.order import OrderCreate, OrderResponse, OrderListResponse, OrderItemResponse
 from ..schemas.receipt import ReceiptResponse
 from ..core.security import get_current_user
 from ..services.inventory import check_stock, reduce_stock
 from ..services.receipts import save_receipt_file
+from ..services.sms import get_sms_service
 
 router = APIRouter(prefix="/orders", tags=["Orders"])
 
