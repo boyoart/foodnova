@@ -136,10 +136,12 @@ const AdminDashboard = () => {
                             order.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
                             order.status === 'paid' ? 'bg-blue-100 text-blue-800' :
                             order.status === 'confirmed' ? 'bg-green-100 text-green-800' :
+                            order.status === 'out_for_delivery' ? 'bg-purple-100 text-purple-800' :
+                            order.status === 'delivered' ? 'bg-emerald-100 text-emerald-800' :
                             'bg-gray-100 text-gray-800'
                           }
                         >
-                          {order.status}
+                          {order.status.replace('_', ' ')}
                         </Badge>
                         <p className="text-sm font-semibold mt-1">
                           {formatPrice(order.total_amount)}
