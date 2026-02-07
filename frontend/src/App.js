@@ -19,6 +19,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminOrders from "./pages/AdminOrders";
 import AdminOrderDetail from "./pages/AdminOrderDetail";
 import AdminProducts from "./pages/AdminProducts";
+import AdminPacks from "./pages/AdminPacks";
 
 function App() {
   return (
