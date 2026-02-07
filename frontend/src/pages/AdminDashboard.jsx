@@ -206,7 +206,7 @@ const AdminDashboard = () => {
         </div>
 
         {/* Quick Actions */}
-        <div className="mt-8 grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="mt-8 grid grid-cols-2 md:grid-cols-5 gap-4">
           <Button variant="outline" className="h-auto py-4" asChild>
             <Link to="/admin/orders" className="flex flex-col items-center gap-2">
               <Package className="w-6 h-6" />
@@ -217,6 +217,12 @@ const AdminDashboard = () => {
             <Link to="/admin/products" className="flex flex-col items-center gap-2">
               <ShoppingBag className="w-6 h-6" />
               <span>Manage Products</span>
+            </Link>
+          </Button>
+          <Button variant="outline" className="h-auto py-4" asChild>
+            <Link to="/admin/packs" className="flex flex-col items-center gap-2">
+              <Layers className="w-6 h-6" />
+              <span>Manage Packs</span>
             </Link>
           </Button>
           <Button variant="outline" className="h-auto py-4" asChild>
