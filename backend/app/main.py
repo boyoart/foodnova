@@ -45,6 +45,8 @@ app.include_router(products.router, prefix="/api")
 app.include_router(packs.router, prefix="/api")
 app.include_router(orders.router, prefix="/api")
 app.include_router(admin.router, prefix="/api")
+app.include_router(admin_categories.router, prefix="/api")
+app.include_router(admin_packs.router, prefix="/api")
 app.include_router(uploads.router, prefix="/api")
 
 
