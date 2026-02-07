@@ -100,6 +100,68 @@ export const adminUpdatePayment = async (paymentId, data) => {
   return response.data;
 };
 
+// Admin Categories
+export const adminGetCategories = async () => {
+  const response = await client.get('/admin/categories');
+  return response.data;
+};
+
+export const adminCreateCategory = async (name) => {
+  const response = await client.post('/admin/categories', { name });
+  return response.data;
+};
+
+export const adminDeleteCategory = async (categoryId) => {
+  const response = await client.delete(`/admin/categories/${categoryId}`);
+  return response.data;
+};
+
+// Admin Packs
+export const adminGetPacks = async () => {
+  const response = await client.get('/admin/packs');
+  return response.data;
+};
+
+export const adminCreatePack = async (data) => {
+  const response = await client.post('/admin/packs', data);
+  return response.data;
+};
+
+export const adminUpdatePack = async (packId, data) => {
+  const response = await client.patch(`/admin/packs/${packId}`, data);
+  return response.data;
+};
+
+export const adminDeletePack = async (packId) => {
+  const response = await client.delete(`/admin/packs/${packId}`);
+  return response.data;
+};
+
+export const adminAddVariant = async (packId, data) => {
+  const response = await client.post(`/admin/packs/${packId}/variants`, data);
+  return response.data;
+};
+
+export const adminUpdateVariant = async (variantId, data) => {
+  const response = await client.patch(`/admin/packs/variants/${variantId}`, data);
+  return response.data;
+};
+
+export const adminDeleteVariant = async (variantId) => {
+  const response = await client.delete(`/admin/packs/variants/${variantId}`);
+  return response.data;
+};
+
+export const adminAddVariantItem = async (variantId, data) => {
+  const response = await client.post(`/admin/packs/variants/${variantId}/items`, data);
+  return response.data;
+};
+
+export const adminDeleteVariantItem = async (itemId) => {
+  const response = await client.delete(`/admin/packs/variants/items/${itemId}`);
+  return response.data;
+};
+
 // Format price helper
 export const formatPrice = (amount) => {
   return `₦${amount.toLocaleString()}`;
