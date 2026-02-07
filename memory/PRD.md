@@ -113,8 +113,25 @@ frontend/
 - [x] Edit product
 - [x] Delete product (soft delete)
 - [x] Stock management
+- [x] Add new category from Products page
 
-## What's Been Implemented (Jan 2026)
+### Admin Pack Management
+- [x] Pack list view at /admin/packs
+- [x] Create new pack
+- [x] Edit pack details
+- [x] Delete pack
+- [x] Add variants with items
+- [x] Edit/delete variants
+
+### Order Status
+- [x] Pending
+- [x] Paid
+- [x] Confirmed
+- [x] Out for Delivery
+- [x] Delivered (NEW)
+- [x] Cancelled
+
+## What's Been Implemented (Feb 2026)
 - Full backend API with FastAPI + SQLAlchemy
 - Database models: User, Category, Product, Pack, Order, Receipt, Payment
 - JWT authentication with role-based access
@@ -144,9 +161,16 @@ frontend/
 - [ ] Product reviews
 - [ ] Wishlist feature
 
+## Recent Updates (Feb 7, 2026)
+- ✅ Fixed cart persistence bug (cart items now persist after page navigation)
+- ✅ Added "Add Category" feature to Admin Products page
+- ✅ Created Admin Packs management page (/admin/packs)
+- ✅ Added "Delivered" status to order workflow
+- ✅ Added backend tests for admin features (15 pytest tests)
+
 ## Next Tasks
-1. Set up Render PostgreSQL database for production
-2. Configure Vercel deployment for frontend
+1. Deploy to Render (backend) and Vercel (frontend)
+2. Add navbar logo (need image URL from user)
 3. Add email notifications (SendGrid integration)
 4. Implement Paystack/Stripe for automated payments
 5. Add product image upload to S3
