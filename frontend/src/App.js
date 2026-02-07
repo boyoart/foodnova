@@ -95,6 +95,14 @@ function App() {
                   </AdminRoute>
                 }
               />
+              <Route
+                path="/admin/packs"
+                element={
+                  <AdminRoute>
+                    <AdminPacks />
+                  </AdminRoute>
+                }
+              />
             </Routes>
             <Toaster />
           </div>
