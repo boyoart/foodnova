@@ -23,11 +23,11 @@ import {
 } from '../components/ui/table';
 import { 
   ArrowLeft, Search, Plus, Pencil, Trash2, 
-  ShoppingBag, Package, CheckCircle, Loader2 
+  ShoppingBag, Package, CheckCircle, Loader2, FolderPlus 
 } from 'lucide-react';
 import { 
   adminGetProducts, adminCreateProduct, adminUpdateProduct, 
-  adminDeleteProduct, getCategories, formatPrice 
+  adminDeleteProduct, getCategories, adminCreateCategory, formatPrice 
 } from '../api/store';
 
 const AdminProducts = () => {
@@ -36,10 +36,12 @@ const AdminProducts = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [isCategoryDialogOpen, setIsCategoryDialogOpen] = useState(false);
   const [editingProduct, setEditingProduct] = useState(null);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
+  const [newCategoryName, setNewCategoryName] = useState('');
   const [formData, setFormData] = useState({
     name: '',
     price: '',
@@ -142,6 +144,24 @@ const AdminProducts = () => {
     }
   };
 
+  const handleCreateCategory = async (e) => {
+    e.preventDefault();
+    if (!newCategoryName.trim()) return;
+    
+    setSaving(true);
+    try {
+      await adminCreateCategory(newCategoryName.trim());
+      setNewCategoryName('');
+      setIsCategoryDialogOpen(false);
+      const categoriesData = await getCategories();
+      setCategories(categoriesData);
+      setSuccess('Category created successfully');
+    } catch (err) {
+      setError(err.response?.data?.detail || 'Failed to create category');
+    }
+    setSaving(false);
+  };
+
   const filteredProducts = products.filter((p) =>
     p.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
@@ -159,6 +179,10 @@ const AdminProducts = () => {
             <h1 className="text-3xl font-bold">Products</h1>
             <p className="text-muted-foreground">Manage your product inventory</p>
           </div>
+          <Button variant="outline" onClick={() => setIsCategoryDialogOpen(true)} data-testid="add-category-btn">
+            <FolderPlus className="w-4 h-4 mr-2" />
+            Add Category
+          </Button>
           <Button onClick={() => handleOpenDialog()} data-testid="add-product-btn">
             <Plus className="w-4 h-4 mr-2" />
             Add Product
@@ -169,6 +193,12 @@ const AdminProducts = () => {
           <Alert className="mb-6 bg-green-50 border-green-200">
             <CheckCircle className="w-4 h-4 text-green-600" />
             <AlertDescription className="text-green-800">{success}</AlertDescription>
+          </Alert>
+        )}
+
+        {error && (
+          <Alert variant="destructive" className="mb-6">
+            <AlertDescription>{error}</AlertDescription>
           </Alert>
         )}
 
@@ -184,6 +214,11 @@ const AdminProducts = () => {
                   className="pl-9"
                   data-testid="products-search"
                 />
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {categories.map((cat) => (
+                  <Badge key={cat.id} variant="outline">{cat.name}</Badge>
+                ))}
               </div>
             </div>
           </CardHeader>
@@ -338,7 +373,22 @@ const AdminProducts = () => {
               </div>
 
               <div className="space-y-2">
-                <Label htmlFor="category_id">Category</Label>
+                <div className="flex items-center justify-between">
+                  <Label htmlFor="category_id">Category</Label>
+                  <Button 
+                    type="button" 
+                    variant="link" 
+                    size="sm" 
+                    className="h-auto p-0"
+                    onClick={() => {
+                      setIsDialogOpen(false);
+                      setIsCategoryDialogOpen(true);
+                    }}
+                  >
+                    <Plus className="w-3 h-3 mr-1" />
+                    New Category
+                  </Button>
+                </div>
                 <select
                   id="category_id"
                   name="category_id"
@@ -383,6 +433,43 @@ const AdminProducts = () => {
                     'Update Product'
                   ) : (
                     'Create Product'
+                  )}
+                </Button>
+              </DialogFooter>
+            </form>
+          </DialogContent>
+        </Dialog>
+
+        {/* Category Dialog */}
+        <Dialog open={isCategoryDialogOpen} onOpenChange={setIsCategoryDialogOpen}>
+          <DialogContent data-testid="category-dialog">
+            <DialogHeader>
+              <DialogTitle>Add New Category</DialogTitle>
+            </DialogHeader>
+            <form onSubmit={handleCreateCategory} className="space-y-4">
+              <div className="space-y-2">
+                <Label htmlFor="categoryName">Category Name</Label>
+                <Input
+                  id="categoryName"
+                  value={newCategoryName}
+                  onChange={(e) => setNewCategoryName(e.target.value)}
+                  placeholder="e.g., Beverages, Snacks..."
+                  required
+                  data-testid="category-name-input"
+                />
+              </div>
+              <DialogFooter>
+                <Button type="button" variant="outline" onClick={() => setIsCategoryDialogOpen(false)}>
+                  Cancel
+                </Button>
+                <Button type="submit" disabled={saving} data-testid="save-category-btn">
+                  {saving ? (
+                    <>
+                      <Loader2 className="w-4 h-4 mr-2 animate-spin" />
+                      Creating...
+                    </>
+                  ) : (
+                    'Create Category'
                   )}
                 </Button>
               </DialogFooter>
