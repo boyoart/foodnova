@@ -1,14 +1,16 @@
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { ShoppingCart, User, LogOut, Settings, Package } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Settings, Package, Sun, Moon } from 'lucide-react';
 import { Button } from './ui/button';
 import { useAuth } from '../context/AuthContext';
 import { useCart } from '../context/CartContext';
+import { useTheme } from '../context/ThemeContext';
 import { Badge } from './ui/badge';
 
 export const Navbar = () => {
   const { user, logout, isAdmin } = useAuth();
   const { totalItems, setIsOpen } = useCart();
+  const { theme, toggleTheme } = useTheme();
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -19,13 +21,13 @@ export const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 glass border-b" data-testid="navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
             <img 
               src="https://customer-assets.emergentagent.com/job_7065ef37-6dbf-47e6-9949-9a26dec6d070/artifacts/tyhnj44c_logo.png" 
               alt="FoodNova - Quality Foodstuff. Reliable Supply." 
-              className="h-12 w-auto"
+              className="h-16 w-auto"
             />
           </Link>
 
