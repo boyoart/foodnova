@@ -5,6 +5,7 @@ import { CartProvider } from "./context/CartContext";
 import { ThemeProvider } from "./context/ThemeContext";
 import { Navbar } from "./components/Navbar";
 import { CartDrawer } from "./components/CartDrawer";
+import { PWAInstallPrompt } from "./components/PWAInstallPrompt";
 import { ProtectedRoute, AdminRoute } from "./components/ProtectedRoute";
 import { Toaster } from "./components/ui/sonner";
 
@@ -31,6 +32,7 @@ function App() {
             <div className="App min-h-screen bg-background">
               <Navbar />
               <CartDrawer />
+              <PWAInstallPrompt />
               <Routes>
                 {/* Public Routes */}
                 <Route path="/" element={<Home />} />
