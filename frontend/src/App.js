@@ -2,6 +2,7 @@ import "@/App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "./context/AuthContext";
 import { CartProvider } from "./context/CartContext";
+import { ThemeProvider } from "./context/ThemeContext";
 import { Navbar } from "./components/Navbar";
 import { CartDrawer } from "./components/CartDrawer";
 import { ProtectedRoute, AdminRoute } from "./components/ProtectedRoute";
@@ -24,90 +25,92 @@ import AdminPacks from "./pages/AdminPacks";
 function App() {
   return (
     <BrowserRouter>
-      <AuthProvider>
-        <CartProvider>
-          <div className="App min-h-screen bg-background">
-            <Navbar />
-            <CartDrawer />
-            <Routes>
-              {/* Public Routes */}
-              <Route path="/" element={<Home />} />
-              <Route path="/login" element={<Login />} />
-              <Route path="/register" element={<Register />} />
-              
-              {/* Customer Protected Routes */}
-              <Route
-                path="/checkout"
-                element={
-                  <ProtectedRoute>
-                    <Checkout />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/orders"
-                element={
-                  <ProtectedRoute>
-                    <Orders />
-                  </ProtectedRoute>
-                }
-              />
-              <Route
-                path="/orders/:id"
-                element={
-                  <ProtectedRoute>
-                    <OrderDetail />
-                  </ProtectedRoute>
-                }
-              />
-              
-              {/* Admin Routes */}
-              <Route path="/admin/login" element={<AdminLogin />} />
-              <Route
-                path="/admin"
-                element={
-                  <AdminRoute>
-                    <AdminDashboard />
-                  </AdminRoute>
-                }
-              />
-              <Route
-                path="/admin/orders"
-                element={
-                  <AdminRoute>
-                    <AdminOrders />
-                  </AdminRoute>
-                }
-              />
-              <Route
-                path="/admin/orders/:id"
-                element={
-                  <AdminRoute>
-                    <AdminOrderDetail />
-                  </AdminRoute>
-                }
-              />
-              <Route
-                path="/admin/products"
-                element={
-                  <AdminRoute>
-                    <AdminProducts />
-                  </AdminRoute>
-                }
-              />
-              <Route
-                path="/admin/packs"
-                element={
-                  <AdminRoute>
-                    <AdminPacks />
-                  </AdminRoute>
-                }
-              />
-            </Routes>
-            <Toaster />
-          </div>
-        </CartProvider>
-      </AuthProvider>
+      <ThemeProvider>
+        <AuthProvider>
+          <CartProvider>
+            <div className="App min-h-screen bg-background">
+              <Navbar />
+              <CartDrawer />
+              <Routes>
+                {/* Public Routes */}
+                <Route path="/" element={<Home />} />
+                <Route path="/login" element={<Login />} />
+                <Route path="/register" element={<Register />} />
+                
+                {/* Customer Protected Routes */}
+                <Route
+                  path="/checkout"
+                  element={
+                    <ProtectedRoute>
+                      <Checkout />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/orders"
+                  element={
+                    <ProtectedRoute>
+                      <Orders />
+                    </ProtectedRoute>
+                  }
+                />
+                <Route
+                  path="/orders/:id"
+                  element={
+                    <ProtectedRoute>
+                      <OrderDetail />
+                    </ProtectedRoute>
+                  }
+                />
+                
+                {/* Admin Routes */}
+                <Route path="/admin/login" element={<AdminLogin />} />
+                <Route
+                  path="/admin"
+                  element={
+                    <AdminRoute>
+                      <AdminDashboard />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/admin/orders"
+                  element={
+                    <AdminRoute>
+                      <AdminOrders />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/admin/orders/:id"
+                  element={
+                    <AdminRoute>
+                      <AdminOrderDetail />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/admin/products"
+                  element={
+                    <AdminRoute>
+                      <AdminProducts />
+                    </AdminRoute>
+                  }
+                />
+                <Route
+                  path="/admin/packs"
+                  element={
+                    <AdminRoute>
+                      <AdminPacks />
+                    </AdminRoute>
+                  }
+                />
+              </Routes>
+              <Toaster />
+            </div>
+          </CartProvider>
+        </AuthProvider>
+      </ThemeProvider>
     </BrowserRouter>
   );
 }
