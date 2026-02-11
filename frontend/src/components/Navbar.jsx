@@ -21,13 +21,12 @@ export const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2" data-testid="logo-link">
-            <div className="w-10 h-10 bg-primary rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">F</span>
-            </div>
-            <span className="font-bold text-xl text-primary" style={{ fontFamily: 'Playfair Display, serif' }}>
-              FoodNova
-            </span>
+          <Link to="/" className="flex items-center" data-testid="logo-link">
+            <img 
+              src="https://customer-assets.emergentagent.com/job_7065ef37-6dbf-47e6-9949-9a26dec6d070/artifacts/tyhnj44c_logo.png" 
+              alt="FoodNova - Quality Foodstuff. Reliable Supply." 
+              className="h-12 w-auto"
+            />
           </Link>
 
           {/* Navigation Links */}

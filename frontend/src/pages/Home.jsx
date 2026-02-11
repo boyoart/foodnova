@@ -214,11 +214,13 @@ const Home = () => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-4 gap-8">
             <div>
-              <h3 className="text-xl font-bold mb-4" style={{ fontFamily: 'Playfair Display, serif' }}>
-                FoodNova
-              </h3>
+              <img 
+                src="https://customer-assets.emergentagent.com/job_7065ef37-6dbf-47e6-9949-9a26dec6d070/artifacts/tyhnj44c_logo.png" 
+                alt="FoodNova" 
+                className="h-16 w-auto mb-4 brightness-0 invert"
+              />
               <p className="text-white/70 text-sm">
-                Quality groceries delivered fresh to your doorstep. Your trusted partner for everyday essentials.
+                Quality Foodstuff. Reliable Supply. Your trusted partner for everyday essentials.
               </p>
             </div>
             <div>
@@ -254,7 +256,7 @@ const Home = () => {
             </div>
           </div>
           <div className="border-t border-white/20 mt-8 pt-8 text-center text-sm text-white/70">
-            © 2024 FoodNova. All rights reserved.
+            © 2026 FoodNova. All rights reserved.
           </div>
         </div>
       </footer>
