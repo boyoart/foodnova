@@ -162,3 +162,12 @@
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+
+.dark .glass {
+  background: rgba(30, 41, 59, 0.8);
+}
+
+/* Hero gradient dark mode */
+.dark .hero-gradient {
+  background: linear-gradient(135deg, hsl(222 47% 14%) 0%, hsl(var(--background)) 100%);
+}
