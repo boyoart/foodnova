@@ -21,13 +21,13 @@ export const Navbar = () => {
   return (
     <nav className="sticky top-0 z-50 glass border-b" data-testid="navbar">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-24">
+        <div className="flex justify-between items-center py-2">
           {/* Logo */}
           <Link to="/" className="flex items-center" data-testid="logo-link">
             <img 
               src="https://customer-assets.emergentagent.com/job_7065ef37-6dbf-47e6-9949-9a26dec6d070/artifacts/tyhnj44c_logo.png" 
               alt="FoodNova - Quality Foodstuff. Reliable Supply." 
-              className="h-14 sm:h-16 md:h-20 w-auto"
+              style={{ width: '250px', height: '150px', objectFit: 'contain' }}
             />
           </Link>
 
