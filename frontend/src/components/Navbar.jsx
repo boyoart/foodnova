@@ -58,6 +58,21 @@ export const Navbar = () => {
 
           {/* Right Side Actions */}
           <div className="flex items-center gap-3">
+            {/* Theme Toggle */}
+            <Button
+              variant="outline"
+              size="icon"
+              onClick={toggleTheme}
+              data-testid="theme-toggle"
+              className="transition-colors"
+            >
+              {theme === 'light' ? (
+                <Moon className="h-5 w-5" />
+              ) : (
+                <Sun className="h-5 w-5" />
+              )}
+            </Button>
+
             {/* Cart Button */}
             <Button
               variant="outline"
